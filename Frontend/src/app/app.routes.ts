@@ -48,6 +48,13 @@ export const routes: Routes = [
           import('./pages/salud-mental/salud-mental.component'),
       },
       {
+        path: 'nutricion',
+        title: 'nutricion',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./pages/nutricion/nutricion.component'),
+      },
+      {
         path: 'perfil',
         title: 'PerfilUser',
         canActivate: [authGuard],

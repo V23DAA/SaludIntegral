@@ -7,6 +7,7 @@ import PhysicalDataRoutes from "./src/routes/physicalData.routes.js";
 import BodyReportRoutes from "./src/routes/bodyReport.routes.js";
 import cookieParser from "cookie-parser";
 
+
 const app = express();
 
 const corsOp = {
@@ -23,5 +24,6 @@ app.use("/user", userRoutes);
 app.use("/physicalData", PhysicalDataRoutes);
 app.use("/routines", routinesRoutes);
 app.use("/bodyReport", BodyReportRoutes);
+
 
 export default app;

@@ -1,1 +1,212 @@
-<p>salud-mental works!</p>
+<div class="dashboard-container">
+  <!-- Header de Bienvenida -->
+  <div class="welcome-section">
+    <h1 class="welcome-title">Bienvenido a tu panel de Salud Mental, {{username}}</h1>
+    <p class="welcome-subtitle">Tu bienestar mental es nuestra prioridad</p>
+  </div>
+
+  <!-- Tarjetas principales -->
+  <div class="main-cards">
+    <div class="card mood-card">
+      <div class="card-header">
+        <h2>Estado de Ánimo Actual</h2>
+      </div>
+      <div class="mood-display">
+        <div class="mood-emoji">{{ getCurrentMoodEmoji() }}</div>
+        <div class="mood-text">{{ getCurrentMoodText() }}</div>
+
+        <!-- Replace the existing calendar strip -->
+        <div class="calendar-strip">
+          <div class="day-item"
+               *ngFor="let day of recentDays"
+               [class.current-day]="day.isToday"
+               [class.future-day]="!day.isToday && day.date > currentDate"
+               [class.past-day]="!day.isToday && day.date < currentDate">
+            <span class="today-badge" *ngIf="day.isToday">Hoy</span>
+            <span class="day-name">{{ day.dayName }}</span>
+            <span class="day-number">{{ day.date.getDate() }}</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" (click)="openMoodTracker()">
+          Registrar Estado
+        </button>
+      </div>
+    </div>
+
+    <div class="card activities-card">
+      <div class="card-header">
+        <h2>Actividades Recomendadas</h2>
+      </div>
+      <div class="activities-list">
+        <div class="activity-item"
+             *ngFor="let activity of dailyActivities"
+             [class.completed]="activity.completed">
+          <div class="activity-content">
+            <h3>{{ activity.title }}</h3>
+            <p>{{ activity.description }}</p>
+            <span class="duration">{{ activity.duration }}</span>
+          </div>
+          <button class="activity-btn"
+                  [class.completed]="activity.completed"
+                  (click)="toggleActivity(activity)"
+                  [attr.aria-label]="activity.completed ? 'Marcar como pendiente' : 'Marcar como completada'">
+            {{ activity.completed ? '✓' : '+' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de progreso semanal -->
+  <div class="progress-section">
+    <div class="card">
+      <div class="card-header">
+        <h2>Progreso de la Semana</h2>
+      </div>
+      <div class="progress-content">
+        <div class="progress-stats">
+          <div class="stat-item">
+            <div class="stat-number">{{ weeklyStats.activitiesCompleted }}</div>
+            <div class="stat-label">Actividades Completadas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ weeklyStats.meditationMinutes }}</div>
+            <div class="stat-label">Minutos de Meditación</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ weeklyStats.averageMood }}/5</div>
+            <div class="stat-label">Estado Promedio</div>
+          </div>
+        </div>
+        <div class="mood-chart">
+          <h3 class="chart-title">Estado de Ánimo Semanal</h3>
+          <div class="chart-days">
+            <div class="day-bar"
+                 *ngFor="let day of moodHistory"
+                 [style.height.%]="day.mood * 20"
+                 [attr.title]="'Estado: ' + day.mood + '/5'">
+              <span class="day-label">{{ day.date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recursos y herramientas -->
+  <div class="resources-section">
+    <div class="card resources-card">
+      <div class="card-header">
+        <h2>Recursos de Apoyo</h2>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-item"
+             *ngFor="let resource of supportResources"
+             (click)="accessResource(resource)"
+             [attr.tabindex]="0"
+             (keydown.enter)="accessResource(resource)"
+             (keydown.space)="accessResource(resource)">
+          <div class="resource-icon">{{ resource.icon }}</div>
+          <h3>{{ resource.title }}</h3>
+          <p>{{ resource.description }}</p>
+          <button class="btn-secondary"
+                  (click)="accessResource(resource); $event.stopPropagation()">
+            Acceder
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card emergency-card">
+      <div class="card-header">
+        <h2>¿Necesitas Ayuda Inmediata?</h2>
+      </div>
+      <div class="emergency-content">
+        <p>Si estás pasando por una crisis emocional, no estás solo.</p>
+        <div class="emergency-contacts">
+          <div class="contact-item">
+            <strong>Línea Nacional:</strong>
+            <a href="tel:106" class="phone-link">106</a>
+          </div>
+          <div class="contact-item">
+            <strong>WhatsApp:</strong>
+            <a href="https://wa.me/573007548933" class="phone-link" target="_blank">
+              +57 300 754 8933
+            </a>
+          </div>
+          <div class="contact-item">
+            <strong>Chat 24/7:</strong>
+            <a href="https://saludmental.gov.co" class="web-link" target="_blank">
+              saludmental.gov.co
+            </a>
+          </div>
+        </div>
+        <button class="btn-emergency" (click)="contactEmergencyLine()">
+          Contactar Ahora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje motivacional -->
+  <div class="motivation-section">
+    <div class="card motivation-card">
+      <div class="motivation-content">
+        <div class="motivation-icon">🌟</div>
+        <h3>Recuerda</h3>
+        <p>Cada pequeño paso cuenta. Tu bienestar mental es tan importante como tu salud física.
+           Tómate el tiempo necesario para cuidarte.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para registrar estado de ánimo -->
+  <div class="modal-backdrop" *ngIf="showMoodModal">
+    <div class="modal-mood">
+      <h2>Registrar Estado de Ánimo</h2>
+      <div class="mood-options">
+        <label>
+          <input type="radio" name="mood" [value]="1" [(ngModel)]="newMood">
+          <div class="mood-container">
+            <span class="mood-emoji">😢</span>
+            <span class="mood-label">Muy Triste</span>
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="mood" [value]="2" [(ngModel)]="newMood">
+          <div class="mood-container">
+            <span class="mood-emoji">😟</span>
+            <span class="mood-label">Triste</span>
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="mood" [value]="3" [(ngModel)]="newMood">
+          <div class="mood-container">
+            <span class="mood-emoji">😐</span>
+            <span class="mood-label">Neutral</span>
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="mood" [value]="4" [(ngModel)]="newMood">
+          <div class="mood-container">
+            <span class="mood-emoji">😊</span>
+            <span class="mood-label">Feliz</span>
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="mood" [value]="5" [(ngModel)]="newMood">
+          <div class="mood-container">
+            <span class="mood-emoji">😄</span>
+            <span class="mood-label">Muy Feliz</span>
+          </div>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" (click)="saveMood()">Registrar</button>
+        <button class="btn-primary cancel" (click)="closeMoodModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
