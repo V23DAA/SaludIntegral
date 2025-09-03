@@ -45,16 +45,16 @@
       </div>
 
       <div class="form-group">
-        <label for="correo">Edad (años)</label>
+        <label for="correo">Fecha de nacimiento</label>
         <input
-          type="number"
-          id="edad"
-          formControlName="edad"
+          type="date"
+          id="fechaNacimiento"
+          formControlName="fechaNacimiento"
           class="form-control"
-          [class.is-invalid]="esInvalido('edad')"
+          [class.is-invalid]="esInvalido('fechaNacimiento')"
         />
-        @if (esInvalido('edad')) {
-        <div class="error-message">Edad es obligatoria</div>
+        @if (esInvalido('fechaNacimiento')) {
+        <div class="error-message">La fecha de nacimiento es obligatoria</div>
         }
       </div>
 

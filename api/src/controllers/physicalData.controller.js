@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import PhysicalData from "../models/physicalData.js";
+import { calcularEdad } from "../utils/ageCalculate.js";
 
 export const registerPhysicalData = async (req, res) => {
   try {
@@ -13,13 +14,13 @@ export const registerPhysicalData = async (req, res) => {
       });
     }
 
-    const { sexo, altura, peso, edad } = req.body;
+    const { sexo, altura, peso, fechaNacimiento } = req.body;
 
     const newPhysicalData = new PhysicalData({
       sexo,
       altura,
       peso,
-      edad,
+      fechaNacimiento,
       usuario: user._id,
     });
 
@@ -44,19 +45,22 @@ export const registerPhysicalData = async (req, res) => {
 
 export const getPhysicalData = async (req, res) => {
   try {
-
     const user = req.userData;
 
     const data = await PhysicalData.findOne({ usuario: user._id });
     console.log("Datos fisicos del usuario: ", data);
 
+    let edad = calcularEdad(data.fechaNacimiento);
+
+    data.edad = edad;
+    
     if (!data) {
       return res
         .status(404)
         .json({ success: false, message: "Datos físicos no encontrados" });
     }
 
-    res.status(200).json({ success: true, data });
+    res.status(200).json({ success: true, data});
   } catch (error) {
     console.error("Error al consultar datos físicos:", error);
     res
@@ -78,12 +82,10 @@ export const updatePhysicalData = async (req, res) => {
     );
 
     if (!updatedData) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "Datos físicos no encontrados para actualizar",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Datos físicos no encontrados para actualizar",
+      });
     }
 
     res.status(200).json({

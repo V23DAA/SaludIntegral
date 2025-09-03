@@ -72,7 +72,6 @@ body {
   background: #f0faf9; /* Fondo más claro al pasar el cursor */
 }
 
-
   .stat-icon {
     font-size: 32px;
     padding: 10px;
@@ -179,7 +178,6 @@ body {
     background: #00857c;
   }
 
-  /* Barra lateral */
   .sidebar {
     display: flex;
     flex-direction: column;
@@ -201,7 +199,6 @@ body {
     margin-bottom: 15px;
   }
 
-  /* Notas y consejos de salud */
   .note {
     margin-bottom: 15px;
     background: #f9fdfd;

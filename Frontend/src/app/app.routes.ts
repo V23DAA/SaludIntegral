@@ -30,13 +30,13 @@ export const routes: Routes = [
       {
         path: 'homeAuth',
         title: 'HomeAuth',
-        canActivate: [authGuard],
+        // canActivate: [authGuard],
         loadComponent: () => import('./pages/homeAuth/homeAuth.component'),
       },
       {
         path: 'SaludFisica',
         title: 'SaludFisica',
-        canActivate: [authGuard],
+        // canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/salud-fisica/salud-fisica.component'),
       },

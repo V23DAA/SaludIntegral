@@ -10,22 +10,20 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://vdalvareza:admin12
 const connectDB = async () => {
   try {
     await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, 
-      socketTimeoutMS: 45000, 
-      retryWrites: true,
-      w: 'majority'
+      serverSelectionTimeoutMS: 5000,  
+      socketTimeoutMS: 45000,          
+      retryWrites: true,               
+      w: "majority",                 
     });
-    
+
     console.log("✅ MongoDB Atlas conectado exitosamente");
-    
+
     await crearRolesIniciales();
     console.log("✅ Roles iniciales verificados/creados");
-    
+
   } catch (error) {
     console.error("❌ Error conectando a MongoDB Atlas:", error.message);
-    process.exit(1); 
+    process.exit(1);
   }
 };
 

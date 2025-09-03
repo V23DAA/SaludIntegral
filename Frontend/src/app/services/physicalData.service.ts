@@ -16,7 +16,7 @@ export class PhysicalDataService {
     sexo: string;
     altura: number;
     peso: number;
-    edad: number;
+    fechaNacimiento: Date;
   }): Promise<any> {
     try {
       const response = await axios.post(`${this.API_URL}/register`, data, {
@@ -65,7 +65,7 @@ export class PhysicalDataService {
     sexo: string;
     altura: number;
     peso: number;
-    edad: number;
+    edad: Date;
   }): Promise<any> {
     try {
       const response = await axios.put(`${this.API_URL}/update`, data, {

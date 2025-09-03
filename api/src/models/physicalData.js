@@ -14,9 +14,13 @@ const physicalDataSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Decimal128,
       required: true,
     },
+    fechaNacimiento: {
+      type: Date,
+      required: true,
+    },
     edad: {
       type: Number,
-      required: true,
+      required: false,
     },
     usuario: {
       type: String,

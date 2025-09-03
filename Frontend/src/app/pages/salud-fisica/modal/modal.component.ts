@@ -32,15 +32,7 @@ export default class ModalComponent {
   ) {
     this.perfilForm = this.fb.group({
       sexo: ['', [Validators.required]],
-      edad: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^(?:1[01][0-9]|120|[1-9][0-9]?)$'),
-          Validators.min(18),
-          Validators.max(90),
-        ],
-      ],
+      fechaNacimiento: ['', [Validators.required]], 
       altura: [
         '',
         [
@@ -90,7 +82,7 @@ export default class ModalComponent {
 
     try {
       const response = await this.physicalData.registerPhysicalData(formValues);
-      this.successMessage = 'Datos fisicos guardados exitosamente';
+      this.successMessage = 'Datos físicos guardados exitosamente';
       this.perfilActualizado.emit(response);
     } catch (error: any) {
       this.errorMessage = error?.message || 'Error al cargar datos';
@@ -108,5 +100,4 @@ export default class ModalComponent {
     const control = this.perfilForm.get(campo);
     return !!control && control.invalid && (control.dirty || control.touched);
   }
-
 }
