@@ -30,7 +30,7 @@ export const createRoutine = async (req, res) => {
   }
 };
 
-export const getGroupedByDificultad = async (req, res) => {
+export const getGroupedByDificultad = async (req, res) => { // BORRAR
   try {
     const result = await Routine.aggregate([
       { $match: { usuario: req.userData.id } },
@@ -48,7 +48,7 @@ export const getGroupedByDificultad = async (req, res) => {
   }
 };
 
-export const getProjectedRutinas = async (req, res) => {
+export const getProjectedRutinas = async (req, res) => {// BORRAR
   try {
     const result = await Routine.aggregate([
       { $match: { usuario: req.userData.id } },
@@ -104,7 +104,7 @@ export const getLimitedRutinas = async (req, res) => {
   }
 };
 
-export const getSkippedRutinas = async (req, res) => {
+export const getSkippedRutinas = async (req, res) => {// BORRAR
   try {
     const skip = parseInt(req.query.skip) || 0;
     const result = await Routine.aggregate([
@@ -130,7 +130,8 @@ export const getUnwindEjercicios = async (req, res) => {
   }
 };
 
-export const getRutinasWithUserInfo = async (req, res) => {
+
+export const getRutinasWithUserInfo = async (req, res) => { // BORRAR
   try {
     const result = await Routine.aggregate([
       { $match: { usuario: req.userData.id } },
